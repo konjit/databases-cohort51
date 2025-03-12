@@ -19,6 +19,7 @@ export const closePool = async () => {
     console.error("Error closing the pool:", error);
   }
 };
+
 const getTables = async () => {
   const showQuery = "SHOW TABLES";
   return await executeQuery(showQuery);

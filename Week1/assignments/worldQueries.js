@@ -10,7 +10,6 @@ export const executeQuery = async (query, params = []) => {
   }
 };
 
-
 const selectQueries = [
   {
     desc: "Countries with population > 8 million",
@@ -54,7 +53,6 @@ const selectQueries = [
   },
 
 ];
-
 
 const executeSelectQuery =  async()=>{
   for(const {desc, query} of selectQueries){
