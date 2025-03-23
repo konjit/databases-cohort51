@@ -1,4 +1,4 @@
-# Normalization Assessment of Recipes Database
+# Normalization of Recipes Database
 
 ## The recipes database has a total of 7 tables
 # Database Tables and Their Columns
