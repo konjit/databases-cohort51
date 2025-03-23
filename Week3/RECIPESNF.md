@@ -1,6 +1,6 @@
 # Normalization Assessment of Recipes Database
 
-##The recipes database has a total of 7 tables
+## The recipes database has a total of 7 tables
 # Database Tables and Their Columns
 
 | Table Name        | Column Names                                  | Constraints                                      |
