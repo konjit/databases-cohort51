@@ -3,6 +3,7 @@ import { parseData, refreshDb, getFilePath } from "./utils/utils.js";
 import { saveToDb } from "./controllers/populationsController.js";
 import Population from "./models/Population.js";
 import { FILE_NAME, continents } from "./constants.js";
+import mongoose from "mongoose";
 
 const seedDb = async () => {
   try {
@@ -25,8 +26,10 @@ const main = async () => {
     }
 
     // Run queries
-    await getPopulation("Netherlands");
-    await getPopulationByContinentAndAge(2020, "100+");
+    const population = await getPopulation("Netherlands");
+    console.log(population);
+    const populationByContinent = await getPopulationByContinentAndAge(2020, "100+");
+    console.log(populationByContinent)
    
   } catch (error) {
     console.log("Main application error.", error.message);
@@ -68,14 +71,24 @@ const getPopulationByContinentAndAge = async (year, ages) => {
       { $match: { year: year, age: ages, country: { $in: continents } } },
       { $group: { _id: "$country", M: { $sum: "$malePopulation" }, F: { $sum: "$femalePopulation" }}},
       { $addFields: { TotalPopulation: { $add: ["$M", "$F"] }} },
-      { $project: { _id: 1, Country: "$_id", Year: year, Age: ages,
-             M: 1, F: 1, TotalPopulation: 1 } },
     ]);
-    return result;
+
+    const formatted = result.map(doc => ({
+      _id: new mongoose.Types.ObjectId(),
+      Country: doc._id,
+      Year: year,
+      Age: ages,
+      M: doc.M,
+      F: doc.F,
+      TotalPopulation: doc.TotalPopulation
+    }));
+
+    return formatted;
   } catch (error) {
     console.error("Error fetching population data.", error.message);
   }
 };
+
 
 
 await main();
