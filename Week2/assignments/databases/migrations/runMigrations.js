@@ -16,6 +16,7 @@ export const initDatabase = async () => {
     // because it uses prepared statements to prevent SQL injection.
     // However, in this case we want to use the variable for the .env file
     // thus, using 'query' was the option.
+ 
     await pool.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
     await pool.query(`USE ${process.env.DB_NAME}`);
 
@@ -24,6 +25,7 @@ export const initDatabase = async () => {
     await authorMentorConstraint.up();
     await research.up();
     await authorResearch.up();
+    
 
     console.log("Database initialized successfully.");
   } catch (error) {
@@ -38,10 +40,11 @@ const dropTables = async () => {
     // because it uses prepared statements to prevent SQL injection.
     // However, in this case we want to use the variable for the .env file
     // thus, using 'query' was the option.
-  
+    await research.down();
+    await authorResearch.down();
     await author.down();
-    await research.up();
-    await authorResearch.up();
+  
+   
 
     console.log("Tables deleted successfully.");
   } catch (error) {

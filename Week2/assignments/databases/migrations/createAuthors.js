@@ -16,7 +16,7 @@ export const up = async () => {
 };
 
 export const down = async () => {
-  const DROP_AUTHOR = `DROP TABLE IF EXISTS  authors;`;
+  const DROP_AUTHOR = `DROP TABLE IF EXISTS authors;`;
 
   await executeQuery(DROP_AUTHOR);
   console.log("Authors table deleted successfully.");

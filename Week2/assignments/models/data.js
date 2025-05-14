@@ -313,13 +313,24 @@ export const populateJunctionData = async () => {
 
 // Insert data to a given 'table' with column properties 'cols' and values 'data'
 // To make the insertion logic generic.
-export const insertData = async (table, cols, data) => {
-  const formattedCols = cols.map(col => `${col}`);  
+
+export const insertData = async (table, cols, data, conflictKeys = []) => {
+  const formattedCols = cols.map(col => `\`${col}\``); 
   const placeholders = data
     .map(() => `(${new Array(cols.length).fill("?").join(",")})`)
     .join(",");
   const values = data.flat();
-  const query = `INSERT INTO ${table} (${formattedCols.join(",")}) 
-    VALUES ${placeholders}`;
+
+  const updateClause = formattedCols
+    .filter(col => !conflictKeys.includes(col.replace(/`/g, ""))) 
+    .map(col => `${col} = VALUES(${col})`)
+    .join(", ");
+
+  const query = `
+    INSERT INTO \`${table}\` (${formattedCols.join(", ")})
+    VALUES ${placeholders}
+    ON DUPLICATE KEY UPDATE ${updateClause};
+  `;
+
   await executeQuery(query, values);
 };
