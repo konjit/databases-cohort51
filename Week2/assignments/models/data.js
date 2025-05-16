@@ -313,7 +313,6 @@ export const populateJunctionData = async () => {
 
 // Insert data to a given 'table' with column properties 'cols' and values 'data'
 // To make the insertion logic generic.
-
 export const insertData = async (table, cols, data, conflictKeys = []) => {
   const formattedCols = cols.map(col => `\`${col}\``); 
   const placeholders = data

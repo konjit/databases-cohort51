@@ -7,14 +7,14 @@ import {
 } from "./models/data.js";
 
 import {
-  getAuthorAndMentorNames,
-  getAuthorAndPublications,
+  printAuthorAndMentorNames,
+  printAuthorAndPublications,
 } from "./exercise-3/joinQueries.js";
 import {
   allResearchPaperAndNumAuthor,
   allPaperByGender,
   avgHIndexByUniversity,
-  avgPaperByUniversity,
+  totalPapersByUniversity,
   minMaxHIndexByUniversity,
 } from "./exercise-4/aggregateQueries.js";
 
@@ -24,13 +24,15 @@ const main = async () => {
     await populateAuthorData();
     await populatePaperData();
     await populateJunctionData();
-    await getAuthorAndMentorNames();
-    await getAuthorAndPublications();
+
+    await printAuthorAndMentorNames();
+    await printAuthorAndPublications();
     await allResearchPaperAndNumAuthor();
     await allPaperByGender();
     await avgHIndexByUniversity();
-    await avgPaperByUniversity();
+    await totalPapersByUniversity();
     await minMaxHIndexByUniversity();
+
   } catch (error) {
     console.error("Main application error:", error);
   }
